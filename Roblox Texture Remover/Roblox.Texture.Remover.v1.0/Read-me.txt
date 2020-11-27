@@ -1,6 +1,0 @@
-=================================================
-1)Open "Config RVF"
-1.5)Select the version folder
-2)Open "[Roblox Texture Remover]"
-3)Done!
-=================================================
