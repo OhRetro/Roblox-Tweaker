@@ -1,6 +1,6 @@
-# Roblox Texture Remover
+# Roblox Tweaker
 ## [Download](https://github.com/OhRetro/Roblox-Texture-Remover/releases).
-## [Download Legacy Version](https://github.com/OhRetro/Roblox-Texture-Remover/releases/tag/Legacy).
+## [Download Roblox Texture Remover Legacy](https://github.com/OhRetro/Roblox-Texture-Remover/releases/tag/Legacy).
 An easier automatic way to remove the textures from Roblox.
 
 It is recommended using [Roblox FPS Unlocker](https://github.com/axstin/rbxfpsunlocker/releases) made by [axstin](https://github.com/axstin).
