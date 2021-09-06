@@ -9,7 +9,8 @@ It is recommended using [Roblox FPS Unlocker](https://github.com/axstin/rbxfpsun
 
 **Note**: This is not a FPS booster; 
 
-![roblox_tweaker_logo](https://user-images.githubusercontent.com/70819072/132237905-8be983b7-79ef-4448-a71d-f809035e36d7.png)
+
+![roblox_tweaker_logo (Small)](https://user-images.githubusercontent.com/70819072/132238157-9f3a0148-aced-4fb8-ab3c-bc878a0537ec.png)
 
 
 changed the name from "Roblox Texture Remover" to "Roblox Tweaker"
