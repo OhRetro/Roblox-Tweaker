@@ -1,5 +1,4 @@
-
-# Roblox Tweaker (coming soon)
+# Roblox Tweaker
 ## [Download](https://github.com/OhRetro/Roblox-Tweaker/releases).
 ## [Download Roblox Texture Remover Legacy](https://github.com/OhRetro/Roblox-Tweaker/releases/tag/Legacy).
 An easier automatic way to remove the textures from Roblox.
