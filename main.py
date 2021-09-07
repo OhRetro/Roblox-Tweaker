@@ -1,5 +1,5 @@
 #Roblox Tweaker
-#Version: 1.0
+#Version: 1.1
 
 from tkinter import Tk, filedialog
 from time import sleep
@@ -9,6 +9,7 @@ import ctypes
 import shutil
 import subprocess
 import psutil
+import requests
 
 class Main():
     def __init__(self):
@@ -17,7 +18,9 @@ class Main():
         self.root.withdraw()
         self.root.iconbitmap('./files/roblox_tweaker_logo.ico')   
 
-        self.roblox_versions_folder_path = os.environ['LocalAppData']+'/Roblox/Versions'
+        self.roblox_folder_path = os.environ['LocalAppData']+'/Roblox'
+        self.roblox_versions_folder_path = self.roblox_folder_path+'/Versions'
+        self.desktop_path = os.environ['UserProfile']+'/Desktop'
         
         self.roblox_version_folder_path = ''
         self.roblox_version_platform_content_pc_folder_path = ''
@@ -25,23 +28,21 @@ class Main():
         self.roblox_textures_folder_path = ''
     
         os.system('cls')
-        print('Roblox Tweaker 1.0:\n')
-        print('[1]Remove textures | [2]Reinstall Roblox files | [3]Exit')
+        print('Roblox Tweaker 1.1:\n')
+        print('[1]Delete textures | [2]Reinstall Roblox | [3]Exit')
         menu_choice = input('>')
         while menu_choice not in ['1','2','3']:
             os.system('cls')
-            print('Roblox Tweaker 1.0:\n')
-            print('[1]Remove textures | [2]Reinstall Roblox files | [3]Exit')
+            print('Roblox Tweaker 1.1:\n')
+            print('[1]Delete textures | [2]Reinstall Roblox | [3]Exit')
             menu_choice = input('>')
 
         #Delete textures
         if menu_choice == '1':
-            self.delete_textures()
-        
+            self.delete_textures()   
         #Create Backup
         elif menu_choice == '2':
-            self.reinstall_roblox_files()
-                    
+            self.reinstall_roblox()
         #Exit
         elif menu_choice == '3':
             os.system('cls')
@@ -91,9 +92,9 @@ class Main():
             
             print('\nCopying completed.')
             
-        sleep(1.5)
+        sleep(1.5)    
     
-    def reinstall_roblox_files(self):
+    def reinstall_roblox(self):
         os.system('cls')
         print('Warning: if you procedure, its going to Reset/Overwrite the folder entirely,')
         print('if you had modified the files before, make sure to backup.\n')
@@ -106,31 +107,68 @@ class Main():
         sleep(0.5)
 
         os.system('cls')
-        print('Select the version folder to Reinstall the files.')
+        if os.path.isdir(self.roblox_versions_folder_path):
+            print('Select the version folder to Reinstall the files.')
 
-        self.get_roblox_version_folder_path()
-        if not self.roblox_version_folder_path:
-            return        
+            self.get_roblox_version_folder_path()
+            if not self.roblox_version_folder_path:
+                return        
+                
+            sleep(1.5)
+            
+            subprocess.Popen(f'{self.roblox_version_folder_path}/RobloxPlayerLauncher.exe')
 
-        os.system('cls')
-        if os.path.isdir(f'{self.roblox_version_folder_path}/ssl'):
-            shutil.rmtree(f'{self.roblox_version_folder_path}/ssl')   
+            sleep(0.5)
+
+            while 'RobloxPlayerLauncher.exe' in (i.name() for i in psutil.process_iter()):
+                os.system('cls')
+                print('Reinstalling in progress.\n')
+
+            print('Reinstalling completed.')
+
+        elif not os.path.isdir(self.roblox_versions_folder_path):
+            self.install_roblox()
             
         sleep(1.5)
+
+    def install_roblox(self):
+        print("Looks like you don't have Roblox installed, for some reason... why even bother using the program?")
+        print('Do you want to install Roblox? Type "yes" to procedure anyway, Type anything else to go back.')
+        install_choice = input('>').lower()
         
-        subprocess.Popen(f'{self.roblox_version_folder_path}/RobloxPlayerLauncher.exe')
+        if install_choice != 'yes':
+            return
+
+        if not os.path.isdir('./downloaded_files'):
+            os.makedirs('./downloaded_files')
+        
+        sleep(0.5)
+        
+        os.system('cls')
+        request = requests.get('https://www.roblox.com/download/client')
+        with open(f'./downloaded_files/RobloxPlayerLauncher.exe', 'wb') as file:
+            file.write(request.content)
+            
+        while not os.path.isfile('./downloaded_files/RobloxPlayerLauncher.exe'):
+            os.system('cls')
+            print('Downloading in progress.\n')
+
+        print('Downloading completed.')
+        
+        sleep(1.5)
+            
+        subprocess.Popen('./downloaded_files/RobloxPlayerLauncher.exe')
 
         sleep(0.5)
 
         while 'RobloxPlayerLauncher.exe' in (i.name() for i in psutil.process_iter()):
             os.system('cls')
-            print('Reinstalling in progress.\n')
+            print('Installing in progress.\n')
 
-        print('Reinstalling completed.')
-
+        print('Installing completed.')
+     
         sleep(1.5)
-
-       
+  
     def get_roblox_version_folder_path(self):      
         self.roblox_version_folder_path = filedialog.askdirectory(title='Select the version folder.',
                                                     initialdir=self.roblox_versions_folder_path,
@@ -140,7 +178,5 @@ class Main():
         self.roblox_terrain_folder_path = f'{self.roblox_version_platform_content_pc_folder_path}/terrain'
         self.roblox_textures_folder_path = f'{self.roblox_version_platform_content_pc_folder_path}/textures'
         
-
-
 if __name__ == '__main__':
     Main()
