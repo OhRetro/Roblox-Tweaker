@@ -2,12 +2,20 @@
 _version = "2.0"
 
 #Imports
-from oreto_utils import Terminal
-from oreto_utils import File
-from os import environ as os_environ
-from os import name as os_name
-from tkinter import Tk, filedialog
-from shutil import rmtree as sh_rmtree
+try:
+    from oreto_utils import Terminal
+    from oreto_utils import File
+    
+except ImportError as missing_package:
+    missing_package = str(missing_package).replace("No module named ", "")
+    print(f"{missing_package} is missing.\nPlease install {missing_package}.\n")
+    exit(0)
+
+finally:
+    from os import environ as os_environ
+    from os import name as os_name
+    from tkinter import Tk, filedialog
+    from shutil import rmtree as sh_rmtree
 
 class RobloxTweaker():
     def __init__(self):
@@ -22,7 +30,7 @@ class RobloxTweaker():
         self._textures_folders_list = ["aluminum", "brick", "cobblestone", "concrete", "diamondplate", "fabric", "glass", "granite", "grass",
                                        "ice", "marble", "metal", "pebble", "plastic", "rust", "sand", "slate", "water", "wood", "woodplanks"]
 
-        self.roblox_version_file = File("roblox-version-folder")
+        self.roblox_version_file = File("roblox-version-folder", "")
         
         if not self.roblox_version_file.exists():
             self.write_rversion_path_file()
@@ -90,7 +98,7 @@ class RobloxTweaker():
             self.user_os = "Linux"
             self._grapejuice_prefixes_path = os_environ["HOME"]+"/.local/share/grapejuice/prefixes"
             
-            self.grapejuice_prefix_file = File("grapejuice-prefix")
+            self.grapejuice_prefix_file = File("grapejuice-prefix", "")
             
             if not self.grapejuice_prefix_file.exists():
                 self.write_prefix_file()
