@@ -4,7 +4,7 @@
 An easier automatic way to remove the textures from Roblox. <br/>
 It is recommended using [Roblox FPS Unlocker](https://github.com/axstin/rbxfpsunlocker/releases) made by [axstin](https://github.com/axstin). <br/>
 
-Version: v2.0
+Version: v2.1
 
 **Note: This is not a FPS booster;**
 
