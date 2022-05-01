@@ -12,15 +12,12 @@ except ImportError as missing_package:
 
 finally:
     from os import environ as os_environ, name as os_name
-    from time import sleep as time_sleep
     from tkinter import Tk, filedialog
     from shutil import rmtree as sh_rmtree
     from contextlib import suppress as ctxl_suppress
 
 if os_name != "nt":
-    print("This program was intended to be run on Windows.\nExiting in 5 seconds...")
-    time_sleep(5)
-    Terminal.clear()
+    print("This program was intended to be run on Windows, Exiting...")
     exit(1)
 
 class RobloxTweaker():
@@ -37,10 +34,10 @@ class RobloxTweaker():
         self._textures_folders_list = ["aluminum", "brick", "cobblestone", "concrete", "diamondplate", "fabric", "glass", "granite", "grass",
                                        "ice", "marble", "metal", "pebble", "plastic", "rust", "sand", "slate", "water", "wood", "woodplanks"]
 
-        self.roblox_version_file = File("roblox-version-folder")
+        self.roblox_version_file = File(file_name="roblox-version-folder", file_ext="")
         
         if not self.roblox_version_file.exists():
-            self.write_rversion_path_file()
+            self.write_file()
             
         if self.roblox_version_file.exists:
             self._rvf_r = self.roblox_version_file.read()
@@ -52,14 +49,14 @@ class RobloxTweaker():
         print(f"Roblox Tweaker v{_version[0]} {_version[1]}")
         print("What do you want to do?\n")
         print("[D]elete Textures\n[U]pdate Roblox Version Folder Path\n[E]xit\n")
-        print(f"Current Roblox Version Folder Path:\n\"{self._rvf_r}\"\n")
+        print(f"Current Roblox Version Folder Path:\n\"{self._rvf_r}\"\nType: {self.get_type()}\n")
         _selected_option = input(">")
         
         if _selected_option in ["D", "d", "1"]:
             self.delete_textures()    
             
         elif _selected_option in ["U", "u", "2"]:
-            self.update_rvf_path()
+            self.update_path()
             
         elif _selected_option in ["E", "e", "3"]:
             Terminal.clear()
@@ -76,23 +73,28 @@ class RobloxTweaker():
                 sh_rmtree(f"{self._rvf_r}/{self._textures_folders_path}/{_texture_folder}")
                 
         Terminal.clear()
-        print("[Done.]\n")
+        print("[Textures Deleted.]\n")
         
     #Update Roblox Version Folder Path
-    def update_rvf_path(self):
-        _updated = self.write_rversion_path_file()
+    def update_path(self):
+        _updated = self.write_file()
         self._rvf_r = self.roblox_version_file.read()
         Terminal.clear()
-        if _updated: print("[Updated]\n")
-        else: print("[Operation Canceled]\n")
+        
+        if _updated:
+            print("[Updated]\n")
+        else:
+            print("[Operation Canceled]\n")
 
+    #Select Directory
     def select_directory(self, title, initialdir):
         dialog = Tk()
         dialog.withdraw()
 
         return filedialog.askdirectory(title=title, initialdir=initialdir, parent=dialog)
 
-    def write_rversion_path_file(self):
+    #Write File
+    def write_file(self):
         self.roblox_version_path = self.select_directory("Select a Roblox Version Folder.", self._roblox_versions_path)
         
         if self.roblox_version_path == "":
@@ -100,6 +102,16 @@ class RobloxTweaker():
 
         self.roblox_version_file.write(self.roblox_version_path)
         return True
+
+    #Get which Roblox Type is currently selected
+    def get_type(self):
+        rop = File(file_name="RobloxPlayerBeta", file_ext=".exe", file_path=f"{self._rvf_r}")
+        ros = File(file_name="RobloxStudioBeta", file_ext=".exe", file_path=f"{self._rvf_r}")
+
+        if rop.exists():
+            return "Roblox Player"
+        elif ros.exists():
+            return "Roblox Studio"
 
 if __name__ == "__main__":
     _rt = RobloxTweaker()
