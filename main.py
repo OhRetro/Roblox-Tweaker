@@ -1,5 +1,5 @@
 #Roblox Tweaker
-_version = ["2.1", "Dev"]
+_version = ["2.1", "Stable"]
 
 #Imports
 try:
