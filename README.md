@@ -1,10 +1,10 @@
 # Roblox Tweaker
 ## [Download](https://github.com/OhRetro/Roblox-Tweaker/archive/refs/heads/stable-stage.zip).
-## [Download Roblox Texture Remover Legacy](https://github.com/OhRetro/Roblox-Tweaker/releases/tag/Legacy).
-An easier automatic way to remove the textures from Roblox. <br/>
-It is recommended using [Roblox FPS Unlocker](https://github.com/axstin/rbxfpsunlocker/releases) made by [axstin](https://github.com/axstin). <br/>
 
-Version: v2.1
+An one of the automatic ways to tweak Roblox. <br/>
+I recommended using [Roblox FPS Unlocker](https://github.com/axstin/rbxfpsunlocker/releases) made by [axstin](https://github.com/axstin). <br/>
+
+Version: v2.2
 
 **Note: This is not a FPS booster;**
 
