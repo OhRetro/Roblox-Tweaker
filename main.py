@@ -1,5 +1,5 @@
 #Roblox Tweaker
-_version = ["2.2", "Dev-Unstable"]
+_version = ["2.2", "Stable"]
 
 #Imports
 try:
@@ -53,6 +53,8 @@ class RobloxTweaker():
                 
             elif _selected_option in ["U", "u", "2"]:
                 self.writepath()
+                self.path = self.path_file.read()
+                self.path_folder = Folder("", self.path)
                 
             elif _selected_option in ["E", "e", "3"]:
                 Terminal.clear()
@@ -65,18 +67,24 @@ class RobloxTweaker():
     #Delete Textures
     def deletetextures(self):
         textures_path = Folder(self._textures_folders_path, self.path)
+        textures_list = textures_path.list()
         textures_path.deletecontents(self._exception_folders)
                 
         Terminal.clear()
-        print("[Textures Deleted.]\n")
+        
+        if len(textures_list) == len(self._exception_folders):
+            print("[There's nothing to delete.]\n")
+        else: 
+            print("[Textures Deleted.]\n")
         
     #Write File
     def writepath(self):
         while True:
-            roblox_version_path = self.path_dir.select("", title="Select Roblox Version Folder", initialdir=self._roblox_versions_path,)
+            roblox_version_path = Folders.select("Select Roblox Version Folder", self._roblox_versions_path, True)
                 
-            if roblox_version_path:
+            if roblox_version_path.split("/")[-1].startswith("version-"):
                 break
+            
         self.path_file.write(roblox_version_path)
         Terminal.clear()
         print("[Path File Written.]\n")
@@ -86,13 +94,12 @@ class RobloxTweaker():
         roblox_exes = ["RobloxPlayerBeta.exe", "RobloxStudioBeta.exe"]
         roblox_version_path = Folder("", self.path).list()
 
-        for exe in roblox_exes:
-            if exe in roblox_version_path and exe == "RobloxPlayerBeta.exe":
-                return "Roblox Player"
-            elif exe in roblox_version_path and exe == "RobloxStudioBeta.exe":
-                return "Roblox Studio"
-            else:
-                return "Unknown"
+        if roblox_exes[0] in roblox_version_path:
+            return "Roblox Player"
+        elif roblox_exes[1] in roblox_version_path:
+            return "Roblox Studio"
+        else:
+            return "Unknown"
 
     #Check if Roblox Version Path is empty to declare as outdated or not
     def outdated(self):
