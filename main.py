@@ -1,5 +1,5 @@
 #Roblox Tweaker
-_version = ["2.2", "Stable"]
+_version = ["2.2", "Dev-Unstable"]
 
 #Imports
 try:
@@ -11,6 +11,8 @@ except ImportError as missing_package:
 
 finally:
     from os import environ as os_environ, name as os_name
+    from types import NoneType
+    from time import sleep as t_sleep
 
 if os_name != "nt":
     print("This program was intended to be run on Windows, Exiting...")
@@ -31,6 +33,10 @@ class RobloxTweaker():
         
         self.path_file = File("path", ".txt")
         self.path_dir = Folder("", self._roblox_versions_path)
+        self.backup_dir = Folder("backup")
+
+        if not self.path_dir.exists():
+            self.path_dir.create()
         
         if not self.path_file.exists():
             print("[Path File Not Found.]")
@@ -44,21 +50,23 @@ class RobloxTweaker():
         while self.running:
             print(f"Roblox Tweaker v{_version[0]} {_version[1]}")
             print("What do you want to do?\n")
-            print("[D]elete Textures\n[U]pdate Roblox Version Folder Path\n[E]xit\n")
-            print(f"Current Roblox Version Folder Path:\n\"{self.path}\"\nType: {self.gettype()}\nOutdated Path: {self.outdated()}\n")
+            print("[D]elete Textures\n[S]how Textures List\n[U]pdate Roblox Version Path\n[E]xit\n")
+            print(f"Current Roblox Version Path:\n\"{self.path}\"\nType: {self.gettype()}\n{self.outdated()}")
             _selected_option = input(">")
             
             if _selected_option in ["D", "d", "1"]:
                 self.deletetextures()    
                 
-            elif _selected_option in ["U", "u", "2"]:
+            elif _selected_option in ["S", "s", "2"]:
+                self.listtextures()
+            
+            elif _selected_option in ["U", "u", "3"]:
                 self.writepath()
                 self.path = self.path_file.read()
                 self.path_folder = Folder("", self.path)
                 
-            elif _selected_option in ["E", "e", "3"]:
+            elif _selected_option in ["E", "e", "4"]:
                 Terminal.clear()
-                self.exit_code = 0
                 self.running = False
                 
             else:
@@ -66,23 +74,77 @@ class RobloxTweaker():
         
     #Delete Textures
     def deletetextures(self):
+        Terminal.clear()
         textures_path = Folder(self._textures_folders_path, self.path)
         textures_list = textures_path.list()
-        textures_path.deletecontents(self._exception_folders)
+        
+        option = None
+        while option not in ["a", "all", "l", "leave"]:        
+            print("[Delete Textures]\n")
+            print("Do you want to delete ALL textures or leave some untouched?\n")
+            option = input("[A]ll\n[L]eave (Default) (Recommended)\n\n>") or "l"
+        
+        if option.lower() in ["l", "leave"]:
+            textures_path.deletecontents(self._exception_folders)
+            
+        elif option.lower() in ["a", "all"]:
+            option = None
+            while option not in ["y", "yes", "n", "no"]:
+                Terminal.clear()
+                print("\nAre you sure you want to DELETE ALL textures?\n")
+                option = input("[Y]es\n[N]o (Default)\n\n>") or "n"
+
+            
+            if option.lower() in ["y", "yes"]:
+                option = None
+                while option not in ["y", "yes", "n", "no"]:
+                    Terminal.clear()
+                    print("Do you want to backup the textures before deleting?\n")
+                    option = input("[Y]es (Default) (Recommended)\n[N]o\n\n>") or "y"
                 
+                if option.lower() in ["y", "yes"]:
+                    Terminal.clear()
+                    textures_path.copycontents(self.backup_dir.folder)
+                    print("[Copying contents to the backup directory]\n")
+                    while self.backup_dir.size() != textures_path.size() and len(self.backup_dir.list()) != len(textures_path.list()):
+                        print(f"Backup directory: [N° of contents: {len(self.backup_dir.list())}/{len(textures_path.list())}] [Size: {self.backup_dir.size()}/{textures_path.size()}]")
+                        Terminal.clearlines()
+                    print("[Done]\n")
+                
+                    counter = 3
+                    while counter != 0:
+                        print(f"Deleting contents in [{counter}]")
+                        t_sleep(1)
+                        Terminal.clearlines(1)
+                    
+                textures_path.deletecontents()
+        
         Terminal.clear()
         
         if len(textures_list) == len(self._exception_folders):
             print("[There's nothing to delete.]\n")
         else: 
             print("[Textures Deleted.]\n")
+    
+    #List Textures
+    def listtextures(self):
+        Terminal.clear()
+        textures_path = Folder(self._textures_folders_path, self.path)
+        textures_list = textures_path.list()
+        print("[Textures List]\n")
         
+        for texture in textures_list:
+            print(texture)
+            
+        input("\nPress Enter to continue...")
+
+    
     #Write File
     def writepath(self):
         while True:
-            roblox_version_path = Folders.select("Select Roblox Version Folder", self._roblox_versions_path, True)
-                
-            if roblox_version_path.split("/")[-1].startswith("version-"):
+            roblox_version_path = Folders.select("Select a Roblox Version", self._roblox_versions_path, True)
+            
+            if type(roblox_version_path) != NoneType and roblox_version_path.split("/")[-1].startswith("version-"):
                 break
             
         self.path_file.write(roblox_version_path)
@@ -104,8 +166,7 @@ class RobloxTweaker():
     #Check if Roblox Version Path is empty to declare as outdated or not
     def outdated(self):
         path_list = self.path_folder.list()
-        return path_list == []
+        return "[Outdated]\n" if len(path_list) <= 1 else ""
         
 if __name__ == "__main__":
-    rt = RobloxTweaker()
-    exit(rt.exit_code)
+    RobloxTweaker()
