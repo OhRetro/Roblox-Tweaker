@@ -3,7 +3,7 @@ _version = ["2.2", "Dev-Unstable"]
 
 #Imports
 try:
-    from oreto_utils import Terminal, File, Folder, Folders
+    from oreto_utils import Terminal, File, Folder, Folders, Others
 
 except ImportError as missing_package:
     print(missing_package)
@@ -27,7 +27,7 @@ class RobloxTweaker():
         self.exit_code = None
                 
         self._roblox_versions_path = os_environ["LocalAppData"]+"/Roblox/Versions"
-        self._textures_folders_path = "/PlatformContent/pc/textures"
+        self._textures_folders_path = "PlatformContent/pc/textures"
                 
         self._exception_folders = ["sky", "brdfLUT.dds", "studs.dds", "wangIndex.dds"]
         
@@ -50,7 +50,7 @@ class RobloxTweaker():
         while self.running:
             print(f"Roblox Tweaker v{_version[0]} {_version[1]}")
             print("What do you want to do?\n")
-            print("[D]elete Textures\n[S]how Textures List\n[U]pdate Roblox Version Path\n[E]xit\n")
+            print("[D]elete Textures\n[S]how Textures List\n[U]pdate Roblox Version Path\n[R]estore Textures from Backup\n[E]xit\n")
             print(f"Current Roblox Version Path:\n\"{self.path}\"\nType: {self.gettype()}\n{self.outdated()}")
             _selected_option = input(">")
             
@@ -91,7 +91,7 @@ class RobloxTweaker():
             option = None
             while option not in ["y", "yes", "n", "no"]:
                 Terminal.clear()
-                print("\nAre you sure you want to DELETE ALL textures?\n")
+                print("Are you sure you want to DELETE ALL textures?\n")
                 option = input("[Y]es\n[N]o (Default)\n\n>") or "n"
 
             
@@ -102,26 +102,30 @@ class RobloxTweaker():
                     print("Do you want to backup the textures before deleting?\n")
                     option = input("[Y]es (Default) (Recommended)\n[N]o\n\n>") or "y"
                 
+                #TODO: Backup
                 if option.lower() in ["y", "yes"]:
                     Terminal.clear()
-                    textures_path.copycontents(self.backup_dir.folder)
+                    before_backup = len(textures_path.list())
+                    #textures_path.copycontents(self.backup_dir.folder)
                     print("[Copying contents to the backup directory]\n")
-                    while self.backup_dir.size() != textures_path.size() and len(self.backup_dir.list()) != len(textures_path.list()):
-                        print(f"Backup directory: [N° of contents: {len(self.backup_dir.list())}/{len(textures_path.list())}] [Size: {self.backup_dir.size()}/{textures_path.size()}]")
-                        Terminal.clearlines()
+                    while len(self.backup_dir.list()) == before_backup:
+                        print(f"{len(self.backup_dir.list())}/{before_backup}")
+                        t_sleep(.5)
+                        Terminal.clearlines(1)
+
                     print("[Done]\n")
                 
-                    counter = 3
-                    while counter != 0:
-                        print(f"Deleting contents in [{counter}]")
-                        t_sleep(1)
-                        Terminal.clearlines(1)
+                counter = 3
+                while counter != 0:
+                    print(f"Deleting contents in [{counter}]")
+                    t_sleep(1)
+                    Terminal.clearlines(1)
                     
-                textures_path.deletecontents()
+                #textures_path.deletecontents()
         
         Terminal.clear()
         
-        if len(textures_list) == len(self._exception_folders):
+        if len(textures_list) <= len(self._exception_folders):
             print("[There's nothing to delete.]\n")
         else: 
             print("[Textures Deleted.]\n")
@@ -137,7 +141,7 @@ class RobloxTweaker():
             print(texture)
             
         input("\nPress Enter to continue...")
-
+        Terminal.clear()
     
     #Write File
     def writepath(self):
