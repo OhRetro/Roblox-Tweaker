@@ -29,14 +29,11 @@ class RobloxTweaker():
         self._roblox_versions_path = os_environ["LocalAppData"]+"/Roblox/Versions"
         self._textures_folders_path = "PlatformContent/pc/textures"
                 
-        self._exception_folders = ["sky", "brdfLUT.dds", "studs.dds", "wangIndex.dds"]
+        self._exception_texs = ["sky", "brdfLUT.dds", "studs.dds", "wangIndex.dds"]
         
         self.path_file = File("path", ".txt")
         self.path_dir = Folder("", self._roblox_versions_path)
         self.backup_dir = Folder("backup")
-
-        if not self.path_dir.exists():
-            self.path_dir.create()
         
         if not self.path_file.exists():
             print("[Path File Not Found.]")
@@ -50,8 +47,8 @@ class RobloxTweaker():
         while self.running:
             print(f"Roblox Tweaker v{_version[0]} {_version[1]}")
             print("What do you want to do?\n")
-            print("[D]elete Textures\n[S]how Textures List\n[U]pdate Roblox Version Path\n[R]estore Textures from Backup\n[E]xit\n")
-            print(f"Current Roblox Version Path:\n\"{self.path}\"\nType: {self.gettype()}\n{self.outdated()}")
+            print("[1]Delete Textures\n[2]Show Textures List\n[3]Update Roblox Version Path\n[4]Restore Textures from Backup\n[0]Exit\n")
+            print(f"Current Roblox Version Path:\n\"{self.path}\"\nType: {self.gettype()}")
             _selected_option = input(">")
             
             if _selected_option in ["D", "d", "1"]:
@@ -65,7 +62,13 @@ class RobloxTweaker():
                 self.path = self.path_file.read()
                 self.path_folder = Folder("", self.path)
                 
-            elif _selected_option in ["E", "e", "4"]:
+            elif _selected_option in ["R", "r", "4"]:
+                self.restoretextures()
+                
+            elif _selected_option in ["backup"]:
+                self.backuptextures()
+                
+            elif _selected_option in ["E", "e", "0"]:
                 Terminal.clear()
                 self.running = False
                 
@@ -85,7 +88,7 @@ class RobloxTweaker():
             option = input("[A]ll\n[L]eave (Default) (Recommended)\n\n>") or "l"
         
         if option.lower() in ["l", "leave"]:
-            textures_path.deletecontents(self._exception_folders)
+            textures_path.deletecontents(self._exception_texs)
             
         elif option.lower() in ["a", "all"]:
             option = None
@@ -102,30 +105,16 @@ class RobloxTweaker():
                     print("Do you want to backup the textures before deleting?\n")
                     option = input("[Y]es (Default) (Recommended)\n[N]o\n\n>") or "y"
                 
-                #TODO: Backup
                 if option.lower() in ["y", "yes"]:
-                    Terminal.clear()
-                    before_backup = len(textures_path.list())
-                    #textures_path.copycontents(self.backup_dir.folder)
-                    print("[Copying contents to the backup directory]\n")
-                    while len(self.backup_dir.list()) == before_backup:
-                        print(f"{len(self.backup_dir.list())}/{before_backup}")
-                        t_sleep(.5)
-                        Terminal.clearlines(1)
+                    self.backuptextures()
 
-                    print("[Done]\n")
-                
-                counter = 3
-                while counter != 0:
-                    print(f"Deleting contents in [{counter}]")
-                    t_sleep(1)
-                    Terminal.clearlines(1)
+                Others.countdown(3, "Deleting Textures in")                
                     
-                #textures_path.deletecontents()
+                textures_path.deletecontents()
         
         Terminal.clear()
         
-        if len(textures_list) <= len(self._exception_folders):
+        if len(textures_list) <= len(self._exception_texs):
             print("[There's nothing to delete.]\n")
         else: 
             print("[Textures Deleted.]\n")
@@ -134,15 +123,51 @@ class RobloxTweaker():
     def listtextures(self):
         Terminal.clear()
         textures_path = Folder(self._textures_folders_path, self.path)
-        textures_list = textures_path.list()
-        print("[Textures List]\n")
-        
-        for texture in textures_list:
-            print(texture)
+        try:    
+            textures_list = textures_path.list()
+            success = True
+        except FileNotFoundError:
+            print("Unable to detemine type, path is inexistent, Try updating the path.")
+            success = False
+      
+        if success:
+            print("[Textures List]\n")
+            for texture in textures_list:
+                print(texture)
             
         input("\nPress Enter to continue...")
         Terminal.clear()
     
+    #Backup Textures
+    def backuptextures(self):
+        Terminal.clear()
+        textures_path = Folder(self._textures_folders_path, self.path)
+        if not self.backup_dir.exists():
+            self.backup_dir.create()
+        print("[Copying contents to the backup directory]")
+        if self.backup_dir.list():
+            print("[Overwriting backup directory]")
+            self.backup_dir.deletecontents()
+        textures_path.copycontents(self.backup_dir.folder)
+        print("[Done]\n")
+    
+    #Restore Textures from Backup
+    def restoretextures(self):
+        Terminal.clear()
+        textures_path = Folder(self._textures_folders_path, self.path)
+        if self.backup_dir.exists():
+            if self.backup_dir.list():
+                print("[Restoring Textures]")
+                textures_path.deletecontents()
+                self.backup_dir.copycontents(textures_path.folder)
+                print("[Done]\n")
+            else:
+                print("[There's nothing to restore.]\n")
+        else:
+            print("[There's nothing to restore.]\n")
+        input("\nPress Enter to continue...")
+        Terminal.clear()
+        
     #Write File
     def writepath(self):
         while True:
@@ -151,14 +176,17 @@ class RobloxTweaker():
             if type(roblox_version_path) != NoneType and roblox_version_path.split("/")[-1].startswith("version-"):
                 break
             
-        self.path_file.write(roblox_version_path)
+        self.path_file.write(roblox_version_path, True)
         Terminal.clear()
         print("[Path File Written.]\n")
         
     #Get which Roblox Type is currently selected
     def gettype(self):
         roblox_exes = ["RobloxPlayerBeta.exe", "RobloxStudioBeta.exe"]
-        roblox_version_path = Folder("", self.path).list()
+        try:    
+            roblox_version_path = Folder("", self.path).list()
+        except FileNotFoundError:
+            return "Unable to detemine type, path is inexistent, Try updating the path."
 
         if roblox_exes[0] in roblox_version_path:
             return "Roblox Player"
@@ -166,11 +194,6 @@ class RobloxTweaker():
             return "Roblox Studio"
         else:
             return "Unknown"
-
-    #Check if Roblox Version Path is empty to declare as outdated or not
-    def outdated(self):
-        path_list = self.path_folder.list()
-        return "[Outdated]\n" if len(path_list) <= 1 else ""
         
 if __name__ == "__main__":
     RobloxTweaker()
