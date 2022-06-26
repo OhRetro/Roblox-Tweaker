@@ -1,18 +1,18 @@
 #Roblox Tweaker
-_version = ["2.2", "Dev-Unstable"]
+VERSION = ["2.2", "Dev-Unstable"]
 
 #Imports
+from os import environ as os_environ, name as os_name
+from types import NoneType
+
 try:
+    from rich import print
     from oreto_utils import Terminal, File, Folder, Folders, Others
 
 except ImportError as missing_package:
     print(missing_package)
+    print("Try running \"pip install -r requirements.txt\"")
     exit(1)
-
-finally:
-    from os import environ as os_environ, name as os_name
-    from types import NoneType
-    from time import sleep as t_sleep
 
 if os_name != "nt":
     print("This program was intended to be run on Windows, Exiting...")
@@ -20,7 +20,7 @@ if os_name != "nt":
 
 class RobloxTweaker():
     def __init__(self):
-        Terminal.title(f"Roblox Tweaker v{_version[0]} {_version[1]}")
+        Terminal.title(f"Roblox Tweaker v{VERSION[0]} {VERSION[1]}")
         Terminal.clear()
         
         self.running = True
@@ -45,7 +45,7 @@ class RobloxTweaker():
             self.path_folder = Folder("", self.path)
         
         while self.running:
-            print(f"Roblox Tweaker v{_version[0]} {_version[1]}")
+            print(f"Roblox Tweaker v{VERSION[0]} {VERSION[1]}")
             print("What do you want to do?\n")
             print("[1]Delete Textures\n[2]Show Textures List\n[3]Update Roblox Version Path\n[4]Restore Textures from Backup\n[0]Exit\n")
             print(f"Current Roblox Version Path:\n\"{self.path}\"\nType: {self.gettype()}")
