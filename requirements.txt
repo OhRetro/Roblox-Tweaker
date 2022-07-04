@@ -1,2 +1,1 @@
-oreto-utils==0.7.1
-rich==12.4.4
+oreto-utils==0.9
