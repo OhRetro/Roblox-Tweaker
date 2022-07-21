@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+	  
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+		
+		<Authors>OhRetro</Authors>
+		<Product>Roblox Tweaker</Product>
+		<Description>It is a tool that allows you to tweak Roblox Textures</Description>
+
+		<VersionMajor>3</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionPrefix>$(VersionMajor).$(VersionMinor)</VersionPrefix>
+		<VersionSuffix>.$([System.DateTime]::UtcNow.ToString(yyyyMMdd.HHmm))</VersionSuffix>
+		
+		<FileVersion>$(VersionPrefix)</FileVersion>
+		
+		<NeutralLanguage>en</NeutralLanguage>
+		
+		<AssemblyTitle>Roblox Tweaker</AssemblyTitle>
+		<AssemblyName>$(MSBuildProjectName)-$(VersionPrefix)$(VersionSuffix)</AssemblyName>
+		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+		
+		<Copyright>2022</Copyright>
+		
+		<StartupObject>RobloxTweaker.Program</StartupObject>
+		
+		<ApplicationIcon>logo.ico</ApplicationIcon>
+		
+		<Version>$(VersionPrefix)$(VersionSuffix)</Version>
+
+	</PropertyGroup>
+
+</Project>
