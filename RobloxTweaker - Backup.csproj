@@ -5,7 +5,7 @@
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0-windows10.0.22000.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
+		<Nullable>warnings</Nullable>
 		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
 		
 		<Authors>OhRetro</Authors>
@@ -23,7 +23,7 @@
 		
 		<AssemblyTitle>Roblox Tweaker</AssemblyTitle>
 		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
-		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+		<AssemblyVersion>$(VersionPrefix)$(VersionSuffix)</AssemblyVersion>
 		
 		<Copyright>2022</Copyright>
 		
