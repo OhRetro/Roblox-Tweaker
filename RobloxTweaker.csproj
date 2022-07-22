@@ -13,7 +13,7 @@
 		<Description>It is a tool that allows you to tweak Roblox Textures</Description>
 
 		<VersionMajor>3</VersionMajor>
-		<VersionMinor>0</VersionMinor>
+		<VersionMinor>1</VersionMinor>
 		<VersionPrefix>$(VersionMajor).$(VersionMinor)</VersionPrefix>
 		<VersionSuffix>.$([System.DateTime]::UtcNow.ToString(yyyyMMdd))</VersionSuffix>
 		
@@ -34,5 +34,9 @@
 		<Version>$(VersionPrefix)$(VersionSuffix)</Version>
 
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="SharpCompress" Version="0.32.1" />
+	</ItemGroup>
 
 </Project>
