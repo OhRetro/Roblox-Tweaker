@@ -5,26 +5,28 @@ namespace RobloxTweaker.MainFiles
 {
     internal class TexturesManager
     {
+        static readonly string[] TEXTURES_FILE_MIRRORS = {
+                "https://github.com/OhRetro/Roblox-Tweaker/raw/dev-stage/textures_backup.zip",
+                "https://github.com/OhRetro/Roblox-Tweaker/raw/stable-stage/textures_backup.zip"
+        };
+
         //Remove
         public static void Remove()
         {
             int choice;
+
+            string title = "Do you want to remove all textures or leave some necessary textures?";
+            string[] options = {
+                "Leave Necessary Textures",
+                "Remove All"
+            };
+
             do
             {
-                Console.WriteLine("Do you want to remove all textures or leave some necessary textures?");
-                Console.WriteLine("[1] Leave Necessary Textures \n[2] Remove All\n[0] Cancel");
+                choice = GenerateMenu(title, options, Array.Empty<string>(), 0, 2);
 
-                Console.Write(">");
-                try
-                {
-                    choice = Convert.ToInt32(Console.ReadLine());
-                }
-                catch (Exception)
-                {
-                    choice = -1;
-                }
                 Console.Clear();
-            } while (choice < 0 || choice > 2);
+            } while (choice < 0 || choice > options.Length);
 
             Console.Clear();
 
@@ -100,18 +102,59 @@ namespace RobloxTweaker.MainFiles
         {
             Console.WriteLine("[Restoring Textures]");
 
+            if (!File.Exists(BACKUP_TEXTURE_FILE))
+            {
+                bool downloadSuccess = DownloadBackupTextures();
+
+                Thread.Sleep(1000);
+                if (!downloadSuccess)
+                {
+                    return;
+                }
+            }
+
             try
             {
                 Unzip(BACKUP_TEXTURE_FILE, ROBLOX_TEXTURE_DIR);
                 Console.WriteLine("[Done]");
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine("[Restore Failed]");
-                Console.WriteLine("[Error]\n{0}", e.Message);
             }
 
             Continue(true);
+        }
+
+        //Download Backup Textures
+        public static bool DownloadBackupTextures()
+        {
+            Console.WriteLine("[Downloading Backup Textures]");
+
+            int fails = 0;
+            for (int i = 0; i < TEXTURES_FILE_MIRRORS.Length; i++)
+            {
+                try
+                {
+                    DownloadFile(TEXTURES_FILE_MIRRORS[i], BACKUP_TEXTURE_FILE);
+                }
+                catch (FileLoadException)
+                {
+                    fails++;
+                    continue;
+                }
+                break;
+            }
+            if (fails == TEXTURES_FILE_MIRRORS.Length)
+            {
+                Console.WriteLine("[Download Failed]");
+                return false;
+            }
+            else
+            {
+                Console.WriteLine("[Download Success]");
+                return true;
+            }
         }
 
         //Count

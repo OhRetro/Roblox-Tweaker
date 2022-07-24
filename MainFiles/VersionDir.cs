@@ -69,15 +69,7 @@ namespace RobloxTweaker.MainFiles
                     }
                 }
 
-                Console.Write(">");
-                try
-                {
-                    choice = Convert.ToInt32(Console.ReadLine());
-                }
-                catch (Exception)
-                {
-                    choice = -1;
-                }
+                choice = MenuInput();
 
                 Console.Clear();
 
@@ -94,12 +86,14 @@ namespace RobloxTweaker.MainFiles
             Select();
             WriteFile();
             ReadFile();
-            Console.Clear();
-            Console.WriteLine("[Directory Updated]");
-            Console.WriteLine("New: {0} | {1}", ROBLOX_VERSION_DIR.Split('\\').Last(), ROBLOX_VERSION_DIR_TYPE);
-            Console.WriteLine("Old: {0} | {1}", OLD_ROBLOX_VERSION_DIR.Split('\\').Last(), OLD_ROBLOX_VERSION_DIR_TYPE);
 
-            Continue(true);
+            string[] extras =
+            {
+                string.Format("New: {0} | {1}", ROBLOX_VERSION_DIR.Split('\\').Last(), ROBLOX_VERSION_DIR_TYPE),
+                string.Format("Old: {0} | {1}", OLD_ROBLOX_VERSION_DIR.Split('\\').Last(), OLD_ROBLOX_VERSION_DIR_TYPE)
+            };
+
+            _ = GenerateMenu("[Directory Updated]", Array.Empty<string>(), extras, 1);
         }
 
         //Get Type
