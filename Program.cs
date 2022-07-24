@@ -15,15 +15,16 @@ namespace RobloxTweaker
         const string NAME_VERSION = NAME + " v" + VERSION;
         const string REPOSITORY = "https://github.com/OhRetro/Roblox-Tweaker";
 
+        static readonly string[] AboutMenuExtras = {
+                NAME_VERSION,
+                string.Format("Made by {0}", AUTHOR),
+                string.Format("Repository: {0}", REPOSITORY)
+        };
+
         //About
         static void About()
         {
-            Console.WriteLine("[About]");
-            Console.WriteLine(NAME_VERSION);
-            Console.WriteLine("Made by {0}", AUTHOR);
-            Console.WriteLine("Repository: {0}", REPOSITORY);
-
-            Continue(true);
+            _ = GenerateMenu("[About]", Array.Empty<string>(), AboutMenuExtras, 1);
         }
 
         static void Main()
@@ -34,26 +35,22 @@ namespace RobloxTweaker
             Console.WriteLine("{0} by {1}\n", NAME_VERSION, AUTHOR);
             ReadFile();
 
-            Console.Clear();
-
             int menu;
+            string[] options = {
+                "Delete Textures",
+                "List Textures",
+                "Update Version Directory",
+                "Restore Textures\n",
+
+                "About"
+            };
+            string[] extras = {
+                string.Format("Current Version Directory: {0}", ROBLOX_VERSION_DIR),
+                string.Format("Type: {0}", ROBLOX_VERSION_DIR_TYPE)
+            };
             do
             {
-                Console.WriteLine(NAME_VERSION);
-                Console.WriteLine("[1] Delete Textures\n[2] List Textures\n[3] Update Version Directory");
-                Console.WriteLine("[4] Restore Textures\n");
-                Console.WriteLine("[5] About\n[0] Exit\n");
-                Console.WriteLine("Current Version Directory:\n\"{0}\"\nType: {1}", ROBLOX_VERSION_DIR, ROBLOX_VERSION_DIR_TYPE);
-
-                Console.Write(">");
-                try
-                {
-                    menu = Convert.ToInt32(Console.ReadLine());
-                }
-                catch (Exception)
-                {
-                    menu = -1;
-                }
+                menu = GenerateMenu(NAME_VERSION, options, extras, 0, 0, "\n");
 
                 Console.Clear();
 
