@@ -78,23 +78,21 @@ namespace RobloxTweaker.MainFiles
         //List
         public static void List()
         {
-            Console.WriteLine("[Textures List]");
-            Console.WriteLine("Textures: {0}\n", Count(ROBLOX_TEXTURE_DIR));
             string[] dirs = Directory.GetDirectories(ROBLOX_TEXTURE_DIR);
             string[] files = Directory.GetFiles(ROBLOX_TEXTURE_DIR);
-            string item;
+
+            string[] messages = { string.Format("Textures: {0}\n", Count(ROBLOX_TEXTURE_DIR)) };
+
             for (int i = 0; i < dirs.Length; i++)
             {
-                item = dirs[i].Split('\\').Last();
-                Console.WriteLine("{0}", item);
+                messages = messages.Append(dirs[i].Split('\\').Last()).ToArray();
             }
             for (int i = 0; i < files.Length; i++)
             {
-                item = files[i].Split('\\').Last();
-                Console.WriteLine("{0}", item);
+                messages = messages.Append(files[i].Split('\\').Last()).ToArray();
             }
 
-            Continue(true);
+            _ = GenerateMenu("[Textures List]", Array.Empty<string>(), messages, 1);
         }
 
         //Restore
@@ -102,7 +100,7 @@ namespace RobloxTweaker.MainFiles
         {
             Console.WriteLine("[Restoring Textures]");
 
-            if (!File.Exists(BACKUP_TEXTURE_FILE))
+            if (!File.Exists(BACKUP_TEXTURE_FILE) || FileSize(BACKUP_TEXTURE_FILE) < 27920097)
             {
                 bool downloadSuccess = DownloadBackupTextures();
 

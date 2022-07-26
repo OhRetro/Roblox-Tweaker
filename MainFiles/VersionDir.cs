@@ -37,11 +37,22 @@ namespace RobloxTweaker.MainFiles
         }
 
         //Select Directory
-        public static void Select()
+        public static bool Select(bool cancel = false)
         {
             Console.Clear();
+
+            int useCancel = -1;
+            int minOptionN = 1;
+
+            if (cancel)
+            {
+                useCancel = 1;
+                minOptionN = 0;
+            }
+
             string[] dirs = Directory.GetDirectories(ROBLOX_VERSIONS_DIR);
             string[] valid_dirs = Array.Empty<string>();
+
             for (int i = 0; i < dirs.Length; i++)
             {
                 if (dirs[i].Split('\\').Last().StartsWith("version-"))
@@ -49,41 +60,56 @@ namespace RobloxTweaker.MainFiles
                     valid_dirs = valid_dirs.Append(dirs[i]).ToArray();
                 }
             }
+
+            string title = "Select a Roblox version to use:";
+            string[] options = Array.Empty<string>();
+
+            for (int i = 0; i < valid_dirs.Length; i++)
+            {
+                string option = string.Format(
+                    "{0} | {1} | Textures: {2} | {3}",
+                    valid_dirs[i].Split('\\').Last(),
+                    Type(valid_dirs[i]),
+                    Count(valid_dirs[i] + PATH_TO_TEXTURES_DIR),
+                    Directory.GetCreationTime(valid_dirs[i])
+                );
+
+                if (valid_dirs[i] == ROBLOX_VERSION_DIR)
+                {
+                    option = string.Concat(option, " <- Current Selected");
+                }
+                options = options.Append(option).ToArray();
+            }
+
             int choice;
             do
             {
-                Console.WriteLine("Select a Roblox version to use:");
-                for (int i = 0; i < valid_dirs.Length; i++)
-                {
-                    Console.Write("[{0}] {1} | ", i, valid_dirs[i].Split('\\').Last());
-                    Console.Write("{0} | ", Type(valid_dirs[i]));
-                    Console.Write("Textures: {0} | ", Count(valid_dirs[i] + PATH_TO_TEXTURES_DIR));
-                    Console.Write("{0}", Directory.GetCreationTime(valid_dirs[i]));
-                    if (valid_dirs[i] == ROBLOX_VERSION_DIR)
-                    {
-                        Console.Write(" <- Current Selected\n");
-                    }
-                    else
-                    {
-                        Console.Write("\n");
-                    }
-                }
+                choice = GenerateMenu(title, options, Array.Empty<string>(), 0, useCancel);
+            } while (choice < minOptionN || choice > valid_dirs.Length);
 
-                choice = MenuInput();
+            Console.Clear();
 
-                Console.Clear();
+            if (choice == 0)
+            {
+                return false;
+            }
 
-            } while (choice < 0 || choice >= valid_dirs.Length);
-            ROBLOX_VERSION_DIR = valid_dirs[choice];
+            ROBLOX_VERSION_DIR = valid_dirs[choice - 1];
+
+            return true;
         }
 
         //Update
-        public static void Update()
+        public static void Update(bool canCancel = false)
         {
             OLD_ROBLOX_VERSION_DIR = ROBLOX_VERSION_DIR;
             OLD_ROBLOX_VERSION_DIR_TYPE = ROBLOX_VERSION_DIR_TYPE;
 
-            Select();
+            bool selected = Select(canCancel);
+            if (!selected)
+            {
+                return;
+            }
             WriteFile();
             ReadFile();
 
@@ -124,15 +150,23 @@ namespace RobloxTweaker.MainFiles
                 status = "Invalid";
                 valid = false;
             }
-            else if (!Directory.Exists(ROBLOX_VERSION_DIR))
+            else if (ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || ROBLOX_VERSION_DIR.Split('\\').Last().StartsWith("version-"))
             {
-                status = "Outdated";
-                valid = false;
+                if (!Directory.Exists(ROBLOX_VERSION_DIR))
+                {
+                    status = "Outdated";
+                    valid = false;
+                }
+                else
+                {
+                    status = "Valid";
+                    valid = true;
+                }
             }
             else
             {
-                status = "Valid";
-                valid = true;
+                status = "Invalid?";
+                valid = false;
             }
 
             Console.WriteLine("[Directory: {0}]", status);

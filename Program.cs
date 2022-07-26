@@ -15,16 +15,16 @@ namespace RobloxTweaker
         const string NAME_VERSION = NAME + " v" + VERSION;
         const string REPOSITORY = "https://github.com/OhRetro/Roblox-Tweaker";
 
-        static readonly string[] AboutMenuExtras = {
-                NAME_VERSION,
-                string.Format("Made by {0}", AUTHOR),
-                string.Format("Repository: {0}", REPOSITORY)
-        };
-
         //About
         static void About()
         {
-            _ = GenerateMenu("[About]", Array.Empty<string>(), AboutMenuExtras, 1);
+            string[] extras = {
+                NAME_VERSION,
+                string.Format("Made by {0}", AUTHOR),
+                string.Format("Repository: {0}", REPOSITORY)
+            };
+
+            _ = GenerateMenu("[About]", Array.Empty<string>(), extras, 1);
         }
 
         static void Main()
@@ -41,7 +41,6 @@ namespace RobloxTweaker
                 "List Textures",
                 "Update Version Directory",
                 "Restore Textures\n",
-
                 "About"
             };
             string[] extras = {
@@ -63,7 +62,7 @@ namespace RobloxTweaker
                         List();
                         break;
                     case 3:
-                        Update();
+                        Update(true);
                         break;
                     case 4:
                         Restore();
