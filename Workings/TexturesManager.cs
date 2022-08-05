@@ -1,7 +1,7 @@
-﻿using static RobloxTweaker.MainFiles.MainVariables;
-using static RobloxTweaker.MainFiles.OtherUtils;
+﻿using static RobloxTweaker.Workings.MainVariables;
+using static RobloxTweaker.Workings.OtherUtils;
 
-namespace RobloxTweaker.MainFiles
+namespace RobloxTweaker.Workings
 {
     internal class TexturesManager
     {

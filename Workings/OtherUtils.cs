@@ -1,7 +1,7 @@
 ﻿using SharpCompress.Archives;
 using SharpCompress.Common;
 
-namespace RobloxTweaker.MainFiles
+namespace RobloxTweaker.Workings
 {
     internal class OtherUtils
     {

@@ -1,11 +1,11 @@
-﻿namespace RobloxTweaker.MainFiles
+﻿namespace RobloxTweaker.Workings
 {
     internal class MainVariables
     {
         public static readonly string ROBLOX_VERSIONS_DIR = Environment.GetEnvironmentVariable("LOCALAPPDATA") + "\\Roblox\\Versions";
         public static string ROBLOX_VERSION_DIR = "Not Set";
         public static string ROBLOX_VERSION_DIR_TYPE = "Not Set";
-        public const string ROBLOX_VERSION_DIR_FILE = ".\\RobloxVersionDir.txt";
+        public const string SETTINGS_FILE = ".\\RobloxVersionDir.txt";
 
         public static string ROBLOX_TEXTURE_DIR = "Not Set";
         public const string PATH_TO_TEXTURES_DIR = "\\PlatformContent\\pc\\textures";

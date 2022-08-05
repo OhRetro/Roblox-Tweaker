@@ -1,9 +1,9 @@
 ﻿//Roblox Tweaker
 
-using static RobloxTweaker.MainFiles.MainVariables;
-using static RobloxTweaker.MainFiles.OtherUtils;
-using static RobloxTweaker.MainFiles.TexturesManager;
-using static RobloxTweaker.MainFiles.VersionDir;
+using static RobloxTweaker.Workings.MainVariables;
+using static RobloxTweaker.Workings.OtherUtils;
+using static RobloxTweaker.Workings.TexturesManager;
+using static RobloxTweaker.Workings.VersionDir;
 
 namespace RobloxTweaker
 {

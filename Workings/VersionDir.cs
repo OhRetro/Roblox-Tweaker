@@ -1,8 +1,8 @@
-﻿using static RobloxTweaker.MainFiles.MainVariables;
-using static RobloxTweaker.MainFiles.OtherUtils;
-using static RobloxTweaker.MainFiles.TexturesManager;
+﻿using static RobloxTweaker.Workings.MainVariables;
+using static RobloxTweaker.Workings.OtherUtils;
+using static RobloxTweaker.Workings.TexturesManager;
 
-namespace RobloxTweaker.MainFiles
+namespace RobloxTweaker.Workings
 {
     internal class VersionDir
     {
@@ -10,17 +10,17 @@ namespace RobloxTweaker.MainFiles
         public static void WriteFile()
         {
             Console.WriteLine("[Writing File]");
-            File.WriteAllText(ROBLOX_VERSION_DIR_FILE, ROBLOX_VERSION_DIR);
+            File.WriteAllText(SETTINGS_FILE, ROBLOX_VERSION_DIR);
             Thread.Sleep(300);
         }
 
         //Read File
         public static void ReadFile()
         {
-            if (File.Exists(ROBLOX_VERSION_DIR_FILE))
+            if (File.Exists(SETTINGS_FILE))
             {
                 Console.WriteLine("[Reading File]");
-                ROBLOX_VERSION_DIR = File.ReadAllText(ROBLOX_VERSION_DIR_FILE);
+                ROBLOX_VERSION_DIR = File.ReadAllText(SETTINGS_FILE);
                 Validate();
                 ROBLOX_TEXTURE_DIR = ROBLOX_VERSION_DIR + PATH_TO_TEXTURES_DIR;
                 ROBLOX_VERSION_DIR_TYPE = Type(ROBLOX_VERSION_DIR);
