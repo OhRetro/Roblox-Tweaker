@@ -145,7 +145,7 @@ namespace RobloxTweaker.Workings
         {
             string status;
             bool valid;
-            if (!ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || !ROBLOX_VERSION_DIR.Split('\\').Last().StartsWith("version-"))
+            if (!ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || !ROBLOX_VERSION_DIR.Split('\\').Last().StartsWith("version-") || ROBLOX_VERSION_DIR.Split('\\').Last().Length != 24)
             {
                 status = "Invalid";
                 valid = false;

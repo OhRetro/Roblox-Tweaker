@@ -1,6 +1,6 @@
 ﻿namespace RobloxTweaker.Workings
 {
-    internal class MainVariables
+    internal static class MainVariables
     {
         public static readonly string ROBLOX_VERSIONS_DIR = Environment.GetEnvironmentVariable("LOCALAPPDATA") + "\\Roblox\\Versions";
         public static string ROBLOX_VERSION_DIR = "Not Set";
