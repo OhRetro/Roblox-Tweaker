@@ -55,7 +55,8 @@ namespace RobloxTweaker.Workings
 
             for (int i = 0; i < dirs.Length; i++)
             {
-                if (dirs[i].Split('\\').Last().StartsWith("version-"))
+                string version_folder = dirs[i].Split('\\').Last();
+                if (version_folder.StartsWith("version-") && version_folder.Length == 24)
                 {
                     valid_dirs = valid_dirs.Append(dirs[i]).ToArray();
                 }
@@ -145,12 +146,13 @@ namespace RobloxTweaker.Workings
         {
             string status;
             bool valid;
-            if (!ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || !ROBLOX_VERSION_DIR.Split('\\').Last().StartsWith("version-"))
+            string version_folder = ROBLOX_VERSION_DIR.Split('\\').Last();
+            if (!ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || !version_folder.StartsWith("version-") || version_folder.Length != 24)
             {
                 status = "Invalid";
                 valid = false;
             }
-            else if (ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || ROBLOX_VERSION_DIR.Split('\\').Last().StartsWith("version-"))
+            else if (ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || version_folder.StartsWith("version-") || version_folder.Length == 24)
             {
                 if (!Directory.Exists(ROBLOX_VERSION_DIR))
                 {

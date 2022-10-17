@@ -10,7 +10,7 @@ namespace RobloxTweaker
     internal class Program
     {
         const string NAME = "Roblox Tweaker";
-        const string VERSION = "3.1";
+        const string VERSION = "3.2";
         const string AUTHOR = "OhRetro";
         const string NAME_VERSION = NAME + " v" + VERSION;
         const string REPOSITORY = "https://github.com/OhRetro/Roblox-Tweaker";
