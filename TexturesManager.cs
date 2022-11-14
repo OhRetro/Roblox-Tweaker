@@ -11,8 +11,7 @@ namespace RobloxTweaker
     internal class TexturesManager
     {
         static readonly string[] TEXTURES_FILE_MIRRORS = {
-                "https://github.com/OhRetro/Roblox-Tweaker/raw/dev-stage/textures_backup.zip",
-                "https://github.com/OhRetro/Roblox-Tweaker/raw/stable-stage/textures_backup.zip"
+            "https://github.com/OhRetro/asset-files/releases/download/roblox-tweaker/textures_backup.zip"
         };
 
         //Remove
@@ -124,12 +123,7 @@ namespace RobloxTweaker
             catch (Exception e)
             {
                 Console.WriteLine("[Restore Failed]");
-                if (ON_DEV)
-                {
-#pragma warning disable CS0162 // Unreachable code detected
-                    Console.WriteLine("Error:\n{0}", e.Message);
-#pragma warning restore CS0162 // Unreachable code detected
-                }
+                Console.WriteLine("Error:\n{0}", e.Message);
             }
 
             Continue(true);

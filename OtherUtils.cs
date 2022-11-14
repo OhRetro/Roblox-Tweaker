@@ -140,12 +140,8 @@ namespace RobloxTweaker
             catch (Exception e)
             {
                 Console.WriteLine("Download Fail at: {0}", url);
-                if (ON_DEV)
-                {
-#pragma warning disable CS0162 // Unreachable code detected
-                    Console.WriteLine("Error:\n{0}", e.Message);
-#pragma warning restore CS0162 // Unreachable code detected
-                }
+                Console.WriteLine("Error:\n{0}", e.Message);
+
                 throw new FileLoadException();
             }
         }

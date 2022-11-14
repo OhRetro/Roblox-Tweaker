@@ -4,8 +4,6 @@ namespace RobloxTweaker
 {
     internal class MainVariables
     {
-        public const bool ON_DEV = false; //Used for in case a exception happens
-
         public static readonly string ROBLOX_VERSIONS_DIR = Environment.GetEnvironmentVariable("LOCALAPPDATA") + "\\Roblox\\Versions";
         public static string ROBLOX_VERSION_DIR = "Not Set";
         public static string ROBLOX_VERSION_DIR_TYPE = "Not Set";
