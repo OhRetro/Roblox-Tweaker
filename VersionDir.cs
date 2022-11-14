@@ -25,7 +25,7 @@ namespace RobloxTweaker
             if (File.Exists(SETTINGS_FILE))
             {
                 Console.WriteLine("[Reading File]");
-                ROBLOX_VERSION_DIR = File.ReadAllText(SETTINGS_FILE);
+                ROBLOX_VERSION_DIR = File.ReadAllLines(SETTINGS_FILE)[0];
                 Validate();
                 ROBLOX_TEXTURE_DIR = ROBLOX_VERSION_DIR + PATH_TO_TEXTURES_DIR;
                 ROBLOX_VERSION_DIR_TYPE = Type(ROBLOX_VERSION_DIR);
@@ -108,8 +108,8 @@ namespace RobloxTweaker
         //Update
         public static void Update(bool canCancel = false)
         {
-            OLD_ROBLOX_VERSION_DIR = ROBLOX_VERSION_DIR;
-            OLD_ROBLOX_VERSION_DIR_TYPE = ROBLOX_VERSION_DIR_TYPE;
+            string OLD_ROBLOX_VERSION_DIR = ROBLOX_VERSION_DIR;
+            string OLD_ROBLOX_VERSION_DIR_TYPE = ROBLOX_VERSION_DIR_TYPE;
 
             bool selected = Select(canCancel);
             if (!selected)

@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 
 using SharpCompress.Archives;
 using SharpCompress.Common;
-
-using static RobloxTweaker.MainVariables;
 
 namespace RobloxTweaker
 {

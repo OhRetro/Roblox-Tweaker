@@ -9,7 +9,7 @@ namespace RobloxTweaker
     internal class Program
     {
         const string NAME = "Roblox Tweaker";
-        const string VERSION = "3.2";
+        const string VERSION = "3.2.1";
         const string AUTHOR = "OhRetro";
         const string NAME_VERSION = NAME + " v" + VERSION;
         const string REPOSITORY = "https://github.com/OhRetro/Roblox-Tweaker";
@@ -35,19 +35,19 @@ namespace RobloxTweaker
             ReadFile();
 
             int menu;
-            string[] options = {
-                "Delete Textures",
-                "List Textures",
-                "Update Version Directory",
-                "Restore Textures\n",
-                "About"
-            };
-            string[] extras = {
-                string.Format("Current Version Directory: {0}", ROBLOX_VERSION_DIR),
-                string.Format("Type: {0}", ROBLOX_VERSION_DIR_TYPE)
-            };
             do
             {
+                string[] options = {
+                    "Delete Textures",
+                    "List Textures",
+                    "Update Version Directory",
+                    "Restore Textures\n",
+                    "About"
+                };
+                string[] extras = {
+                    string.Format("Current Version Directory: {0}", ROBLOX_VERSION_DIR),
+                    string.Format("Type: {0}", ROBLOX_VERSION_DIR_TYPE)
+                };
                 menu = GenerateMenu(NAME_VERSION, options, extras, 0, 0, "\n");
 
                 Console.Clear();

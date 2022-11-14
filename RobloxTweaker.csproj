@@ -226,12 +226,10 @@
     <None Include="LICENSE" />
     <None Include="packages.config" />
     <None Include="README.md" />
-    <None Include="RobloxTweaker_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitattributes" />
     <Content Include=".gitignore" />
-    <Content Include="logo.ico" />
     <Content Include="logoV2.ico" />
   </ItemGroup>
   <ItemGroup>
