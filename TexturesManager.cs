@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
-
 using static RobloxTweaker.MainVariables;
 using static RobloxTweaker.OtherUtils;
 

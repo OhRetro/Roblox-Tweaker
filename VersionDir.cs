@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading;
-
 using static RobloxTweaker.MainVariables;
 using static RobloxTweaker.OtherUtils;
 using static RobloxTweaker.TexturesManager;
@@ -55,13 +54,31 @@ namespace RobloxTweaker
                 minOptionN = 0;
             }
 
-            string[] dirs = Directory.GetDirectories(ROBLOX_VERSIONS_DIR);
+            string[] dirs;
+            try
+            {
+                dirs = Directory.GetDirectories(ROBLOX_VERSIONS_DIR);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                dirs = null;
+
+                Console.WriteLine("Roblox isn't installed...");
+                Thread.Sleep(3000);
+
+                Environment.Exit(2);
+            }
+
             string[] valid_dirs = Array.Empty<string>();
 
             for (int i = 0; i < dirs.Length; i++)
             {
                 string version_folder = dirs[i].Split('\\').Last();
-                if (version_folder.StartsWith("version-") && version_folder.Length == 24)
+                if (version_folder == ROBLOX_VERSION_DIR.Split('\\').Last())
+                {
+                    continue;
+                }
+                else if (version_folder.StartsWith("version-") && version_folder.Length == 24)
                 {
                     valid_dirs = valid_dirs.Append(dirs[i]).ToArray();
                 }
@@ -69,6 +86,14 @@ namespace RobloxTweaker
 
             string title = "Select a Roblox version to use:";
             string[] options = Array.Empty<string>();
+
+            if (valid_dirs.Length == 0)
+            {
+                Console.WriteLine("No Version was found, please try reinstalling Roblox...");
+                Thread.Sleep(3000);
+
+                Environment.Exit(2);
+            }
 
             for (int i = 0; i < valid_dirs.Length; i++)
             {
@@ -80,17 +105,18 @@ namespace RobloxTweaker
                     Directory.GetCreationTime(valid_dirs[i])
                 );
 
-                if (valid_dirs[i] == ROBLOX_VERSION_DIR)
-                {
-                    option = string.Concat(option, " <- Current Selected");
-                }
                 options = options.Append(option).ToArray();
             }
 
             int choice;
+            string[] extras =
+            {
+                string.Format("\nCurrently Selected: {0}\n{1}", ROBLOX_VERSION_DIR_TYPE, ROBLOX_VERSION_DIR)
+            };
+
             do
             {
-                choice = GenerateMenu(title, options, Array.Empty<string>(), 0, useCancel);
+                choice = GenerateMenu(title, options, extras, 0, useCancel);
             } while (choice < minOptionN || choice > valid_dirs.Length);
 
             Console.Clear();
