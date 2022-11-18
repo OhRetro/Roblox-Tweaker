@@ -109,14 +109,16 @@ namespace RobloxTweaker
             }
 
             int choice;
-            string[] extras =
+            string[] extras = Array.Empty<string>();
+
+            if (ROBLOX_VERSION_DIR != "Not Set")
             {
-                string.Format("\nCurrently Selected: {0}\n{1}", ROBLOX_VERSION_DIR_TYPE, ROBLOX_VERSION_DIR)
-            };
+                extras = extras.Append(string.Format("Currently Selected: {0}\n{1}", ROBLOX_VERSION_DIR_TYPE, ROBLOX_VERSION_DIR)).ToArray();        
+            }
 
             do
             {
-                choice = GenerateMenu(title, options, extras, 0, useCancel);
+                choice = GenerateMenu(title, options, extras, 0, useCancel, "\n");
             } while (choice < minOptionN || choice > valid_dirs.Length);
 
             Console.Clear();
