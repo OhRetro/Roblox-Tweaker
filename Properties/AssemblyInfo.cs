@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Roblox Tweaker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("It is a tool that allows you to tweak Roblox Textures.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("OhRetro")]
 [assembly: AssemblyProduct("RobloxTweaker")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyTrademark("none lol")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible
