@@ -33,20 +33,22 @@ namespace RobloxTweaker
 
             Console.WriteLine("{0} by {1}\n", NAME_VERSION, AUTHOR);
             ReadFile();
+            VerifyCustomDir();
 
             int menu;
             do
             {
                 string[] options = {
-                    "Delete Textures",
-                    "List Textures",
-                    "Update Version Directory",
-                    "Restore Textures\n",
+                    "Delete Surface Textures",
+                    "Restore Surface Textures",
+                    "Apply Custom GUI Textures",
+                    "List Remaining Surface Textures",
+                    "Update Version Directory\n",
                     "About"
                 };
                 string[] extras = {
-                    string.Format("Current Version Directory: {0}", ROBLOX_VERSION_DIR),
-                    string.Format("Type: {0}", ROBLOX_VERSION_DIR_TYPE)
+                    string.Format("Current Selected Version: {0}", ROBLOX_VERSION_DIR_TYPE),
+                    string.Format("Directory: {0}", ROBLOX_VERSION_DIR)
                 };
                 menu = GenerateMenu(NAME_VERSION, options, extras, 0, 0, "\n");
 
@@ -58,15 +60,18 @@ namespace RobloxTweaker
                         Remove();
                         break;
                     case 2:
-                        List();
-                        break;
-                    case 3:
-                        Update(true);
-                        break;
-                    case 4:
                         Restore();
                         break;
+                    case 3:
+                        Replace();
+                        break;
+                    case 4:
+                        List();
+                        break;
                     case 5:
+                        Update(true);
+                        break;
+                    case 6:
                         About();
                         break;
                     default:

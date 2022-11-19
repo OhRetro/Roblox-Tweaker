@@ -26,7 +26,8 @@ namespace RobloxTweaker
                 Console.WriteLine("[Reading File]");
                 ROBLOX_VERSION_DIR = File.ReadAllLines(SETTINGS_FILE)[0];
                 Validate();
-                ROBLOX_TEXTURE_DIR = ROBLOX_VERSION_DIR + PATH_TO_TEXTURES_DIR;
+                ROBLOX_TEXTURES_DIR = ROBLOX_VERSION_DIR + PATH_TO_TEXTURES_DIR;
+                ROBLOX_CONTENT_DIR = ROBLOX_VERSION_DIR + PATH_TO_CONTENT_DIR;
                 ROBLOX_VERSION_DIR_TYPE = Type(ROBLOX_VERSION_DIR);
                 Thread.Sleep(300);
             }
@@ -84,9 +85,6 @@ namespace RobloxTweaker
                 }
             }
 
-            string title = "Select a Roblox version to use:";
-            string[] options = Array.Empty<string>();
-
             if (valid_dirs.Length == 0)
             {
                 Console.WriteLine("No Version was found, please try reinstalling Roblox...");
@@ -95,10 +93,13 @@ namespace RobloxTweaker
                 Environment.Exit(2);
             }
 
+            string title = "Select a Roblox version to use:";
+            string[] options = Array.Empty<string>();
+
             for (int i = 0; i < valid_dirs.Length; i++)
             {
                 string option = string.Format(
-                    "{0} | {1} | Textures: {2} | {3}",
+                    "{0} | {1} | Surface Textures: {2} | {3}",
                     valid_dirs[i].Split('\\').Last(),
                     Type(valid_dirs[i]),
                     Count(valid_dirs[i] + PATH_TO_TEXTURES_DIR),
@@ -111,9 +112,9 @@ namespace RobloxTweaker
             int choice;
             string[] extras = Array.Empty<string>();
 
-            if (ROBLOX_VERSION_DIR != "Not Set")
+            if (File.Exists(SETTINGS_FILE))
             {
-                extras = extras.Append(string.Format("Currently Selected: {0}\n{1}", ROBLOX_VERSION_DIR_TYPE, ROBLOX_VERSION_DIR)).ToArray();        
+                extras = extras.Append(string.Format("Current Selected Version: {0}\nDirectory: {1}", ROBLOX_VERSION_DIR_TYPE, ROBLOX_VERSION_DIR)).ToArray();        
             }
 
             do
@@ -136,8 +137,8 @@ namespace RobloxTweaker
         //Update
         public static void Update(bool canCancel = false)
         {
-            string OLD_ROBLOX_VERSION_DIR = ROBLOX_VERSION_DIR;
-            string OLD_ROBLOX_VERSION_DIR_TYPE = ROBLOX_VERSION_DIR_TYPE;
+            string old_dir = ROBLOX_VERSION_DIR.Split('\\').Last();
+            string old_type = ROBLOX_VERSION_DIR_TYPE;
 
             bool selected = Select(canCancel);
             if (!selected)
@@ -150,7 +151,7 @@ namespace RobloxTweaker
             string[] extras =
             {
                 string.Format("New: {0} | {1}", ROBLOX_VERSION_DIR.Split('\\').Last(), ROBLOX_VERSION_DIR_TYPE),
-                string.Format("Old: {0} | {1}", OLD_ROBLOX_VERSION_DIR.Split('\\').Last(), OLD_ROBLOX_VERSION_DIR_TYPE)
+                string.Format("Old: {0} | {1}", old_dir, old_type)
             };
 
             _ = GenerateMenu("[Directory Updated]", Array.Empty<string>(), extras, 1);
@@ -180,23 +181,15 @@ namespace RobloxTweaker
             string status;
             bool valid;
             string version_folder = ROBLOX_VERSION_DIR.Split('\\').Last();
-            if (!ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || !version_folder.StartsWith("version-") || version_folder.Length != 24)
+            if (!ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || !version_folder.StartsWith("version-") || version_folder.Length != 24 || !Directory.Exists(ROBLOX_VERSION_DIR))
             {
-                status = "Invalid";
+                status = "Invalid/Outdated";
                 valid = false;
             }
-            else if (ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) || version_folder.StartsWith("version-") || version_folder.Length == 24)
+            else if (ROBLOX_VERSION_DIR.StartsWith(ROBLOX_VERSIONS_DIR) && version_folder.StartsWith("version-") && version_folder.Length == 24)
             {
-                if (!Directory.Exists(ROBLOX_VERSION_DIR))
-                {
-                    status = "Outdated";
-                    valid = false;
-                }
-                else
-                {
-                    status = "Valid";
-                    valid = true;
-                }
+                status = "Valid";
+                valid = true;
             }
             else
             {
