@@ -2,12 +2,11 @@
 
 ## What is Roblox Tweaker?
 
-It is a tool that allows you to tweak Roblox Textures, Like:
+It is a program that allows you to tweak Roblox Textures, Like:
 
-- Delete Textures.
-- Restore Textures.
-- List Textures.
+- Delete Surface Textures.
+- Restore Surface Textures.
+- List Remaining Surface Textures.
+- Apply Custom GUI Textures.
 
-It should run on Windows 10 or higher. (I don't know if it going to work on Windows 7 or 8.)
-
-**Note: Roblox Tweaker is not a FPS booster.**
+**Note: Roblox Tweaker is not a FPS booster and it's not affiliated with Roblox**
