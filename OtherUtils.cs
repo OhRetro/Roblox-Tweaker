@@ -126,6 +126,13 @@ namespace RobloxTweaker
             return menu;
         }
 
+        //Request
+        //TODO: finish it
+        public static void RequestURL(string URL)
+        {
+            var HTTPClient = new HttpClient();
+        } 
+
         //Download File
         public static void DownloadFile(string url, string destFile)
         {
@@ -148,8 +155,7 @@ namespace RobloxTweaker
             return new FileInfo(file).Length;
         }
 
-        //https://stackoverflow.com/questions/28791847/wait-for-download-to-complete#28793535
-        //TODO: find another way to make my own file downloader and then throw out this one
+        //File Downloader
         public class Downloader
         {
             public async Task Download(string url, string saveAs)

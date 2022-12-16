@@ -9,13 +9,14 @@ namespace RobloxTweaker
     internal class Program
     {
         private const string NAME = "Roblox Tweaker";
-        private const string VERSION = "3.3";
+        private const string VERSION = "3.4";
         private const string AUTHOR = "OhRetro";
         private const string NAME_VERSION = NAME + " v" + VERSION;
         private const string REPOSITORY = "https://github.com/OhRetro/Roblox-Tweaker";
+        private static string NEW_VERSION = "";
 
         //About
-        static void About()
+        private static void About()
         {
             string[] extras = {
                 NAME_VERSION,
@@ -26,12 +27,24 @@ namespace RobloxTweaker
             _ = GenerateMenu("[About]", Array.Empty<string>(), extras, 1);
         }
 
-        static void Main()
+        //Check for Update
+        private static bool CheckForUpdate()
+        {
+            return false;
+        }
+
+        private static void Main()
         {
             Console.Title = NAME_VERSION;
             Console.Clear();
 
             Console.WriteLine("{0} by {1}\n", NAME_VERSION, AUTHOR);
+
+            if (CheckForUpdate())
+            {
+
+            }
+
             ReadFile();
             VerifyCustomDir();
 
@@ -50,7 +63,7 @@ namespace RobloxTweaker
                     string.Format("Current Selected Version: {0}", ROBLOX_VERSION_DIR_TYPE),
                     string.Format("Directory: {0}", ROBLOX_VERSION_DIR)
                 };
-                menu = GenerateMenu(NAME_VERSION, options, extras, 0, 0, "\n");
+                menu = GenerateMenu(NAME_VERSION+NEW_VERSION, options, extras, 0, 0, "\n");
 
                 Console.Clear();
 
