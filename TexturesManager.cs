@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using static RobloxTweaker.MainVariables;
 using static RobloxTweaker.OtherUtils;
+using static RobloxTweaker.FileUtils;
 
 namespace RobloxTweaker
 {
@@ -115,7 +116,7 @@ namespace RobloxTweaker
             }
             try
             {
-                Unzip(BACKUP_TEXTURE_FILE, ROBLOX_TEXTURES_DIR);
+                UnzipFile(BACKUP_TEXTURE_FILE, ROBLOX_TEXTURES_DIR);
                 Console.WriteLine("[Done]");
             }
             catch (Exception e)

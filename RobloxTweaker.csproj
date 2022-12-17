@@ -214,6 +214,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileUtils.cs" />
     <Compile Include="MainVariables.cs" />
     <Compile Include="OtherUtils.cs" />
     <Compile Include="Program.cs" />
