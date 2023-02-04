@@ -107,10 +107,11 @@ namespace RobloxTweaker
         }
 
         //Request
-        //TODO: finish it
-        public static void RequestURL(string URL)
+        public static HttpResponseMessage RequestURL(string URL)
         {
             var HTTPClient = new HttpClient();
+            HTTPClient.DefaultRequestHeaders.Add("User-Agent", "request");
+            return HTTPClient.GetAsync(URL).Result;
         }
     }
 }

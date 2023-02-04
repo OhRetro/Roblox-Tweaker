@@ -18,5 +18,7 @@ namespace RobloxTweaker
         public static readonly string[] EXCEPTION_TEXTURES = { "sky", "brdfLUT.dds", "studs.dds", "wangIndex.dds" };
 
         public const string BACKUP_TEXTURE_FILE = ".\\textures_backup.zip";
+
+        public const string NEW_VERSION_SETUP_FILE = ".\\NewVersionSetup.exe";
     }
 }
