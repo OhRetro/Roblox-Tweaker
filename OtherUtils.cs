@@ -48,6 +48,25 @@ namespace RobloxTweaker
             Console.SetCursorPosition(0, Console.CursorTop - 1);
         }
 
+        //Menu
+        public static int Menu(string title, string[] options, string[] extras, int inputType = 0, int optionZero = -1, string optionsZeroExtra = "")
+        {
+            int choice;
+            int minChoiceNumber = 1;
+            
+            if (optionZero >= 0)
+            {
+                minChoiceNumber = 0;
+            } 
+
+            do
+            {
+                choice = GenerateMenu(title, options, extras, inputType, optionZero, optionsZeroExtra);
+                Console.Clear();
+            } while (choice < minChoiceNumber || choice > options.Length);
+            return choice;
+        }
+
         //Generate Menu
         public static int GenerateMenu(string title, string[] options, string[] extras, int inputType = 0, int optionZero = -1, string optionsZeroExtra = "")
         {
@@ -89,7 +108,7 @@ namespace RobloxTweaker
 
             return menu;
         }
-
+        
         //Menu Input
         public static int MenuInput()
         {
@@ -97,7 +116,7 @@ namespace RobloxTweaker
             Console.Write(">");
             try
             {
-                menu = Convert.ToInt32(Console.ReadLine());
+                menu = Convert.ToInt16(Console.ReadLine());
             }
             catch (Exception)
             {

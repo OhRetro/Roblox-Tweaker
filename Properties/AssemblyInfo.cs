@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Roblox Tweaker")]
-[assembly: AssemblyDescription("It is a program that allows you to tweak Roblox Textures.")]
+[assembly: AssemblyDescription("A program that allows you to tweak Roblox Textures.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("OhRetro")]
 [assembly: AssemblyProduct("RobloxTweaker")]
-[assembly: AssemblyCopyright("Copyright ©  2022")]
+[assembly: AssemblyCopyright("Copyright ©  2023")]
 [assembly: AssemblyTrademark("none lol")]
 [assembly: AssemblyCulture("")]
 
@@ -32,6 +32,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.4.0.0")]
-[assembly: AssemblyFileVersion("3.4.0.0")]
+[assembly: AssemblyVersion("3.5.0.0")]
+[assembly: AssemblyFileVersion("3.5.0.0")]
 [assembly: NeutralResourcesLanguage("en")]

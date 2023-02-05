@@ -16,23 +16,16 @@ namespace RobloxTweaker
         };
 
         //Remove
-        public static void Remove()
+        public static void RemoveTextures()
         {
-            int choice;
-
             string title = "Do you want to remove all surface textures or leave the necessaries?";
             string[] options = 
             {
                 "Leave Necessary Surface Textures [RECOMMENDED]",
                 "Remove All Surface Textures"
             };
-
-            do
-            {
-                choice = GenerateMenu(title, options, Array.Empty<string>(), 0, 2);
-
-                Console.Clear();
-            } while (choice < 0 || choice > options.Length);
+           
+            int choice = Menu(title, options, Array.Empty<string>(), 0, 2);
 
             if (choice == 0)
             {
@@ -80,12 +73,12 @@ namespace RobloxTweaker
         }
 
         //List
-        public static void List()
+        public static void ListTextures()
         {
             string[] dirs = Directory.GetDirectories(ROBLOX_TEXTURES_DIR);
             string[] files = Directory.GetFiles(ROBLOX_TEXTURES_DIR);
 
-            string[] messages = { string.Format("Remaining Surface Textures: {0}\n", Count(ROBLOX_TEXTURES_DIR)) };
+            string[] messages = { string.Format("Remaining Surface Textures: {0}\n", CountTextures(ROBLOX_TEXTURES_DIR)) };
 
             for (int i = 0; i < dirs.Length; i++)
             {
@@ -100,7 +93,7 @@ namespace RobloxTweaker
         }
 
         //Restore
-        public static void Restore()
+        public static void RestoreTextures()
         {
             Console.WriteLine("[Restoring Surface Textures]");
 
@@ -128,9 +121,9 @@ namespace RobloxTweaker
         }
 
         //Replace
-        public static void Replace()
+        public static void ReplaceTextures()
         {
-            VerifyCustomDir();
+            VerifyCustomTexturesDir();
             
             string[] customs_textures = Directory.GetDirectories(CUSTOM_TEXTURES_DIR);
 
@@ -151,20 +144,15 @@ namespace RobloxTweaker
                 }
             }
 
-            string title = "Select a Custom Texture Pack to apply:";
+            string title = "Select a Custom GUI Texture Pack to apply:";
             string[] options = Array.Empty<string>();
             for (int i = 0; i < valid_customs_textures.Length; i++)
             {
                 string option = valid_customs_textures[i].Split('\\').Last();
-
                 options = options.Append(option).ToArray();
             }
 
-            int choice;
-            do
-            {
-                choice = GenerateMenu(title, options, Array.Empty<string>(), 0, 1, "\n");
-            } while (choice < 0 || choice > valid_customs_textures.Length);
+            int choice = Menu(title, options, Array.Empty<string>(), 0, 1, "\n");
 
             Console.Clear();
 
@@ -198,7 +186,7 @@ namespace RobloxTweaker
             Continue(true);
         }
 
-        public static void VerifyCustomDir()
+        public static void VerifyCustomTexturesDir()
         {
             if (!Directory.Exists(CUSTOM_TEXTURES_DIR))
             {
@@ -238,7 +226,7 @@ namespace RobloxTweaker
         }
 
         //Count
-        public static int Count(string directory)
+        public static int CountTextures(string directory)
         {
             string[] dirs = Directory.GetDirectories(directory);
             string[] files = Directory.GetFiles(directory);

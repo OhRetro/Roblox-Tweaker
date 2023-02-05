@@ -14,7 +14,7 @@ namespace RobloxTweaker
     internal class Program
     {
         private const string NAME = "Roblox Tweaker";
-        private const string VERSION = "3.4";
+        private const string VERSION = "3.5";
         private const string AUTHOR = "OhRetro";
         private const string NAME_VERSION = NAME + " v" + VERSION;
         private const string REPOSITORY = "https://github.com/OhRetro/Roblox-Tweaker";
@@ -88,14 +88,14 @@ namespace RobloxTweaker
             dynamic release = JsonConvert.DeserializeObject(json);
             string tag_name = release["tag_name"].ToString();
             string html_url = release["html_url"].ToString();
-            List<dynamic> assets = release["assets"].ToObject<List<dynamic>>();
+            string browser_download_url = release["assets"].ToObject<List<dynamic>>()[0]["browser_download_url"].ToString();
 
             var newVersion = new Version(tag_name);
             var currentVersion = new Version(VERSION);
             
             if (newVersion.CompareTo(currentVersion) > 0)
             {
-                AskToUpdate(tag_name, html_url, assets[0].browser_download_url.ToString());
+                AskToUpdate(tag_name, html_url, browser_download_url);
                 return;
             }
 
@@ -115,7 +115,7 @@ namespace RobloxTweaker
             CheckForUpdate();
 
             ReadFile();
-            VerifyCustomDir();
+            VerifyCustomTexturesDir();
 
             int menu;
             do
@@ -140,16 +140,16 @@ namespace RobloxTweaker
                 switch (menu)
                 {
                     case 1:
-                        Remove();
+                        RemoveTextures();
                         break;
                     case 2:
-                        Restore();
+                        RestoreTextures();
                         break;
                     case 3:
-                        Replace();
+                        ReplaceTextures();
                         break;
                     case 4:
-                        List();
+                        ListTextures();
                         break;
                     case 5:
                         Update(true);

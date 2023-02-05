@@ -42,17 +42,15 @@ namespace RobloxTweaker
         }
 
         //Select Directory
-        public static bool Select(bool cancel = false)
+        public static bool Select(bool canCancel = false)
         {
             Console.Clear();
 
             int useCancel = -1;
-            int minOptionN = 1;
 
-            if (cancel)
+            if (canCancel)
             {
                 useCancel = 1;
-                minOptionN = 0;
             }
 
             string[] dirs;
@@ -102,14 +100,13 @@ namespace RobloxTweaker
                     "{0} | {1} | Surface Textures: {2} | {3}",
                     valid_dirs[i].Split('\\').Last(),
                     Type(valid_dirs[i]),
-                    Count(valid_dirs[i] + PATH_TO_TEXTURES_DIR),
+                    CountTextures(valid_dirs[i] + PATH_TO_TEXTURES_DIR),
                     Directory.GetCreationTime(valid_dirs[i])
                 );
 
                 options = options.Append(option).ToArray();
             }
 
-            int choice;
             string[] extras = Array.Empty<string>();
 
             if (File.Exists(SETTINGS_FILE))
@@ -117,10 +114,7 @@ namespace RobloxTweaker
                 extras = extras.Append(string.Format("Current Selected Version: {0}\nDirectory: {1}", ROBLOX_VERSION_DIR_TYPE, ROBLOX_VERSION_DIR)).ToArray();        
             }
 
-            do
-            {
-                choice = GenerateMenu(title, options, extras, 0, useCancel, "\n");
-            } while (choice < minOptionN || choice > valid_dirs.Length);
+            int choice = Menu(title, options, extras, 0, useCancel, "\n");
 
             Console.Clear();
 
