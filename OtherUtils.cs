@@ -117,8 +117,7 @@ namespace RobloxTweaker
             try
             {
                 menu = Convert.ToInt16(Console.ReadLine());
-            }
-            catch (Exception)
+            } catch (Exception)
             {
                 menu = -1;
             }

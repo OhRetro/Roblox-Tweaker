@@ -42,27 +42,18 @@ namespace RobloxTweaker
                     "Download New Version Setup & Run"
             };
 
-            int choice;
-            do {
-                choice = GenerateMenu(title, options, Array.Empty<string>(), 0, 1);
+            int choice = Menu(title, options, Array.Empty<string>(), 0, 1);
 
-                Console.Clear();
-
-                switch (choice)
-                {
-                    case 1:
-                        Process.Start(newVersionPageURL);
-                        break;
-                    case 2:
-                        Console.WriteLine("Downloading...");
-                        DownloadFile(newVersionSetupURL, NEW_VERSION_SETUP_FILE);
-                        Process.Start(NEW_VERSION_SETUP_FILE);
-                        Environment.Exit(1);
-                        break;
-                    default:
-                        break;
-                }
-            } while (choice < 0 || choice > options.Length);
+            if (choice == 1) {
+                Process.Start(newVersionPageURL);
+            }
+            else if (choice == 2)
+            {
+                Console.WriteLine("Downloading...");
+                DownloadFile(newVersionSetupURL, NEW_VERSION_SETUP_FILE);
+                Process.Start(NEW_VERSION_SETUP_FILE);
+                Environment.Exit(1);
+            }
 
             NEW_VERSION = string.Format(" (New Version: v{0})", newVersion);
         }
@@ -117,25 +108,24 @@ namespace RobloxTweaker
             ReadFile();
             VerifyCustomTexturesDir();
 
+            string[] options = {
+                "Delete Surface Textures",
+                "Restore Surface Textures",
+                "Apply Custom GUI Textures",
+                "List Remaining Surface Textures",
+                "Update Version Directory\n",
+                "About",
+                "Check for Update"
+            };
+            string[] extras = {
+                string.Format("Current Selected Version: {0}", ROBLOX_VERSION_DIR_TYPE),
+                string.Format("Directory: {0}", ROBLOX_VERSION_DIR)
+            };
+
             int menu;
             do
             {
-                string[] options = {
-                    "Delete Surface Textures",
-                    "Restore Surface Textures",
-                    "Apply Custom GUI Textures",
-                    "List Remaining Surface Textures",
-                    "Update Version Directory\n",
-                    "About",
-                    "Check for Update"
-                };
-                string[] extras = {
-                    string.Format("Current Selected Version: {0}", ROBLOX_VERSION_DIR_TYPE),
-                    string.Format("Directory: {0}", ROBLOX_VERSION_DIR)
-                };
-                menu = GenerateMenu(NAME_VERSION + NEW_VERSION, options, extras, 0, 0, "\n");
-
-                Console.Clear();
+                menu = Menu(NAME_VERSION + NEW_VERSION, options, extras, 0, 0, "\n");
 
                 switch (menu)
                 {

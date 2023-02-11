@@ -96,15 +96,20 @@ namespace RobloxTweaker
 
             for (int i = 0; i < valid_dirs.Length; i++)
             {
-                string option = string.Format(
-                    "{0} | {1} | Surface Textures: {2} | {3}",
-                    valid_dirs[i].Split('\\').Last(),
-                    Type(valid_dirs[i]),
-                    CountTextures(valid_dirs[i] + PATH_TO_TEXTURES_DIR),
-                    Directory.GetCreationTime(valid_dirs[i])
-                );
+                try
+                {
+                    string option = string.Format(
+                        "{0} | {1} | Surface Textures: {2} | {3}",
+                        valid_dirs[i].Split('\\').Last(),
+                        Type(valid_dirs[i]),
+                        CountTextures(valid_dirs[i] + PATH_TO_TEXTURES_DIR),
+                        Directory.GetCreationTime(valid_dirs[i])
+                    );
 
-                options = options.Append(option).ToArray();
+                    options = options.Append(option).ToArray();
+                } catch {
+                    continue;
+                }
             }
 
             string[] extras = Array.Empty<string>();
