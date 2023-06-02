@@ -39,7 +39,7 @@ namespace RobloxTweaker
 
             string[] options = {
                     "Open New Version Page",
-                    "Download New Version Setup & Run"
+                    "Download New Version & Run"
             };
 
             int choice = Menu(title, options, Array.Empty<string>(), 0, 1);
@@ -92,7 +92,7 @@ namespace RobloxTweaker
 
             if (isManual)
             {
-                NEW_VERSION = string.Format(" (There's no New Version)");
+                NEW_VERSION = " (There's no New Version)";
             }
         }
 
